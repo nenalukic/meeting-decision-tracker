@@ -13,7 +13,7 @@ services:
       - key: PYTHONUNBUFFERED
         value: true
     domains:
-      - name: meeting-tracker-api.onrender.com
+      - meeting-tracker-api.onrender.com
 
   - type: web
     name: meeting-decision-tracker-frontend
@@ -26,9 +26,7 @@ services:
       - key: VITE_API_URL
         value: https://meeting-tracker-api.onrender.com
     domains:
-      - name: meeting-tracker.onrender.com
-    dependsOn:
-      - meeting-decision-tracker-backend
+      - meeting-tracker.onrender.com
 
 databases:
   - name: meeting-decision-tracker-db
