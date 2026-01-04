@@ -1,0 +1,287 @@
+openapi: 3.1.0
+info:
+  title: Meeting Decision Tracker API
+  version: 1.0.0
+  description: API for managing meetings, decisions, and action items.
+
+paths:
+  /meetings:
+    get:
+      summary: List meetings
+      tags: [Meetings]
+      operationId: list_meetings
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: A list of meetings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meeting'
+    post:
+      summary: Create a meeting
+      tags: [Meetings]
+      operationId: create_meeting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeetingCreate'
+      responses:
+        '201':
+          description: The created meeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+
+  /meetings/{meeting_id}:
+    get:
+      summary: Get a specific meeting
+      tags: [Meetings]
+      operationId: get_meeting
+      parameters:
+        - name: meeting_id
+          in: path
+          expectedSchema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: The meeting details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '404':
+          description: Meeting not found
+
+  /meetings/{meeting_id}/decisions:
+    get:
+      summary: List decisions for a meeting
+      tags: [Decisions]
+      operationId: list_meeting_decisions
+      parameters:
+        - name: meeting_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Decisions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Decision'
+    post:
+      summary: Add a decision to a meeting
+      tags: [Decisions]
+      operationId: create_decision
+      parameters:
+        - name: meeting_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionCreate'
+      responses:
+        '201':
+          description: Created decision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Decision'
+
+  /meetings/{meeting_id}/action-items:
+    get:
+      summary: List action items for a meeting
+      tags: [Action Items]
+      operationId: list_meeting_action_items
+      parameters:
+        - name: meeting_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Action Items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActionItem'
+    post:
+      summary: Add an action item to a meeting
+      tags: [Action Items]
+      operationId: create_action_item
+      parameters:
+        - name: meeting_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionItemCreate'
+      responses:
+        '201':
+          description: Created action item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionItem'
+
+  /action-items/{action_item_id}:
+    patch:
+      summary: Update action item status
+      tags: [Action Items]
+      operationId: update_action_item
+      parameters:
+        - name: action_item_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionItemUpdate'
+      responses:
+        '200':
+          description: Updated action item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionItem'
+
+components:
+  schemas:
+    Meeting:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+          format: date-time
+        attendees:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+      required: [id, title, date]
+
+    MeetingCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+          format: date-time
+        attendees:
+          type: array
+          items:
+            type: string
+      required: [title, date]
+
+    Decision:
+      type: object
+      properties:
+        id:
+          type: integer
+        meeting_id:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required: [id, meeting_id, content]
+
+    DecisionCreate:
+      type: object
+      properties:
+        content:
+          type: string
+      required: [content]
+
+    ActionItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        meeting_id:
+          type: integer
+        content:
+          type: string
+        assignee:
+          type: string
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        status:
+          type: string
+          enum: [Pending, In Progress, Done]
+        created_at:
+          type: string
+          format: date-time
+      required: [id, meeting_id, content, status]
+
+    ActionItemCreate:
+      type: object
+      properties:
+        content:
+          type: string
+        assignee:
+          type: string
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+      required: [content]
+
+    ActionItemUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [Pending, In Progress, Done]
+        assignee:
+          type: string
+          nullable: true
