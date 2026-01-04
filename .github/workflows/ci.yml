@@ -9,6 +9,7 @@ on:
 jobs:
   backend-test:
     runs-on: ubuntu-latest
+    # Database: Uses in-memory SQLite (configured in conftest.py)
     steps:
     - uses: actions/checkout@v4
     
