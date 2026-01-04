@@ -13,17 +13,12 @@ services:
       - key: PYTHONUNBUFFERED
         value: true
 
-databases:
-  - name: meeting-decision-tracker-db
-    plan: free
-    databaseName: meeting_tracker
-    user: meeting_user
 
-staticSites:
-  - name: meeting-decision-tracker-frontend
+  - type: pstatic
+    name: meeting-decision-tracker-frontend
     buildCommand: |
       cd frontend && npm ci && npm run build
-    publishPath: frontend/dist
+    staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
         value: https://meeting-tracker-api.onrender.com
@@ -31,8 +26,9 @@ staticSites:
       - type: rewrite
         source: /*
         destination: /index.html
-    domains:
-      - meeting-tracker.onrender.com
+
+databases:
+  - name: meeting-decision-tracker-db
     plan: free
     databaseName: meeting_tracker
     user: meeting_user
