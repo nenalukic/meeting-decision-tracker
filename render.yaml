@@ -16,6 +16,7 @@ services:
 
   - type: web
     name: meeting-decision-tracker-frontend
+    runtime: static
     buildCommand: |
       cd frontend && npm ci && npm run build
     staticPublishPath: frontend/dist
