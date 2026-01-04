@@ -14,7 +14,7 @@ services:
         value: true
 
 
-  - type: pstatic
+  - type: web
     name: meeting-decision-tracker-frontend
     buildCommand: |
       cd frontend && npm ci && npm run build
