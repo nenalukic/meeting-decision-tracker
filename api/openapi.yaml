@@ -56,7 +56,7 @@ paths:
       parameters:
         - name: meeting_id
           in: path
-          expectedSchema:
+          schema:
             type: integer
           required: true
       responses:
