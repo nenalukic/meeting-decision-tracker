@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: meeting-decision-tracker-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: meeting-decision-tracker-db
+          property: connectionString
+      - key: PYTHONUNBUFFERED
+        value: true
+    routes:
+      - path: /
+        matchType: prefix
+        dest: /
+    domains:
+      - meeting-tracker-api.onrender.com
+
+  - type: web
+    name: meeting-decision-tracker-frontend
+    runtime: node
+    plan: free
+    buildCommand: |
+      cd frontend && npm ci && npm run build
+    startCommand: npx serve -s frontend/dist -l $PORT
+    envVars:
+      - key: VITE_API_URL
+        value: https://meeting-tracker-api.onrender.com
+    routes:
+      - path: /
+        matchType: prefix
+        dest: /
+    domains:
+      - meeting-tracker.onrender.com
+    depends:
+      - meeting-decision-tracker-backend
+
+databases:
+  - name: meeting-decision-tracker-db
+    plan: free
+    databaseName: meeting_tracker
+    user: meeting_user
