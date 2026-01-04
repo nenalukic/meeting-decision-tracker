@@ -238,6 +238,10 @@ components:
           type: string
       required: [content]
 
+    ActionItemStatus:
+      type: string
+      enum: [Pending, In Progress, Done]
+
     ActionItem:
       type: object
       properties:
@@ -255,8 +259,7 @@ components:
           format: date
           nullable: true
         status:
-          type: string
-          enum: [Pending, In Progress, Done]
+          $ref: '#/components/schemas/ActionItemStatus'
         created_at:
           type: string
           format: date-time
@@ -280,8 +283,7 @@ components:
       type: object
       properties:
         status:
-          type: string
-          enum: [Pending, In Progress, Done]
+          $ref: '#/components/schemas/ActionItemStatus'
         assignee:
           type: string
           nullable: true

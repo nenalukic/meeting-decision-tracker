@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -9,6 +10,14 @@ from .database import engine, get_db
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Meeting Decision Tracker API", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # In production, set this to the frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- Meetings ---
 
@@ -89,5 +98,7 @@ def update_action_item(action_item_id: int, update_data: schemas.ActionItemUpdat
         setattr(item, key, value)
     
     db.commit()
+    db.refresh(item)
+    return item
     db.refresh(item)
     return item

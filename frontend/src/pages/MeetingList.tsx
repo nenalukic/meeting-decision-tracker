@@ -82,7 +82,7 @@ export default function MeetingList() {
                                 </span>
                             </div>
                             <p style={{ color: 'var(--text-secondary)', margin: '0.5rem 0 0' }}>
-                                {meeting.attendees?.length || 0} attendees
+                                {meeting.attendees?.length || 0} {(meeting.attendees?.length || 0) === 1 ? 'attendee' : 'attendees'}
                             </p>
                         </div>
                     </Link>
