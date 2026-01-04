@@ -12,12 +12,8 @@ services:
           property: connectionString
       - key: PYTHONUNBUFFERED
         value: true
-    routes:
-      - path: /
-        matchType: prefix
-        dest: /
     domains:
-      - meeting-tracker-api.onrender.com
+      - name: meeting-tracker-api.onrender.com
 
   - type: web
     name: meeting-decision-tracker-frontend
@@ -29,13 +25,9 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://meeting-tracker-api.onrender.com
-    routes:
-      - path: /
-        matchType: prefix
-        dest: /
     domains:
-      - meeting-tracker.onrender.com
-    depends:
+      - name: meeting-tracker.onrender.com
+    dependsOn:
       - meeting-decision-tracker-backend
 
 databases:
