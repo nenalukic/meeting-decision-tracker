@@ -245,6 +245,16 @@ openapi-generator-cli generate -i api/openapi.yaml -g typescript-fetch -o fronte
 
 ---
 
+## AI-Assisted Development & MCP
+This project was developed using an AI-assisted workflow and Model Context Protocol (MCP) principles.
+- **Detailed Documentation**: [docs/ai_history.md](docs/ai_history.md)
+- **Key Features**:
+  - OpenAPI-driven development (Contract First)
+  - Automatic frontend code generation from backend specs
+  - Type-safe contracts between services
+
+---
+
 ## Contributing
 
 1. Follow the existing code style
