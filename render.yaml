@@ -19,7 +19,7 @@ services:
   - type: web
     name: meeting-decision-tracker-frontend
     runtime: static
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && VITE_API_URL=https://meeting-decision-tracker-backend.onrender.com npm run build
     staticPublishPath: dist
     rootDir: frontend
     envVars:
