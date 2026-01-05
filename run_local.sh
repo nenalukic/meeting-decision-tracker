@@ -42,7 +42,7 @@ source backend/venv/bin/activate
 
 # Ensure dependencies are installed (fast check)
 # We trust they are mostly there, or we can just pip install again to be sure
-# pip install -r backend/requirements.txt > /dev/null 2>&1
+pip install -r backend/requirements.txt > /dev/null 2>&1
 
 # DATABASE_URL is not set, so it defaults to sqlite:///./app.db as per backend/database.py
 uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload > backend.log 2>&1 &
