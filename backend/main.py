@@ -13,7 +13,10 @@ app = FastAPI(title="Meeting Decision Tracker API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, set this to the frontend domain
+    allow_origins=[
+        "https://meeting-decision-tracker-frontend.onrender.com",
+        "http://localhost:5173",  # For local development
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

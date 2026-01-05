@@ -4,7 +4,7 @@ services:
     name: meeting-decision-tracker-backend
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && python -c "from database import engine, Base; import models; Base.metadata.create_all(bind=engine)"
     startCommand: gunicorn main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
     rootDir: backend
     envVars:

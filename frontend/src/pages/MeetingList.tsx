@@ -24,6 +24,10 @@ export default function MeetingList() {
             queryClient.invalidateQueries({ queryKey: ['meetings'] });
             setShowCreate(false);
             setNewMeeting({ title: '', date: new Date().toISOString(), attendees: [] });
+        },
+        onError: (error) => {
+            console.error('Failed to create meeting:', error);
+            alert('Failed to create meeting. Check console for details.');
         }
     });
 

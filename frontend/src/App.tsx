@@ -7,6 +7,7 @@ import './index.css';
 
 // Configure API Client
 OpenAPI.BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+console.log('API Base URL:', OpenAPI.BASE);
 
 const queryClient = new QueryClient();
 
